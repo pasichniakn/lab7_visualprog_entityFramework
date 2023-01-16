@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище HospitalModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Specialty" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cabinet" Type="nchar" MaxLength="10" />
+          <Property Name="Phone" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateBirth" Type="date" />
+          <Property Name="BloodType" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Address" Type="nchar" MaxLength="50" />
+          <Property Name="Allergies" Type="text" />
+          <Property Name="Foto" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Visiting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Patient" Type="int" Nullable="false" />
+          <Property Name="Doctor" Type="int" Nullable="false" />
+          <Property Name="MedicalComplaints" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Result" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Therapy" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WritingDisability">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataStart" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataFinish" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Result" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patient" Type="int" Nullable="false" />
+          <Property Name="Doctor" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Visiting_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Visiting" Type="Self.Visiting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Visiting">
+              <PropertyRef Name="Doctor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visiting_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="Visiting" Type="Self.Visiting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Visiting">
+              <PropertyRef Name="Patient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WritingDisability_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="WritingDisability" Type="Self.WritingDisability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WritingDisability">
+              <PropertyRef Name="Doctor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WritingDisability_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="WritingDisability" Type="Self.WritingDisability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WritingDisability">
+              <PropertyRef Name="Patient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище HospitalModelContainer">
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visiting" EntityType="Self.Visiting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WritingDisability" EntityType="Self.WritingDisability" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Visiting_Doctor" Association="Self.FK_Visiting_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="Visiting" EntitySet="Visiting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visiting_Patient" Association="Self.FK_Visiting_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Visiting" EntitySet="Visiting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WritingDisability_Doctor" Association="Self.FK_WritingDisability_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="WritingDisability" EntitySet="WritingDisability" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WritingDisability_Patient" Association="Self.FK_WritingDisability_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="WritingDisability" EntitySet="WritingDisability" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HospitalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Specialty" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Cabinet" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Visitings" Relationship="Self.FK_Visiting_Doctor" FromRole="Doctor" ToRole="Visiting" />
+          <NavigationProperty Name="WritingDisabilities" Relationship="Self.FK_WritingDisability_Doctor" FromRole="Doctor" ToRole="WritingDisability" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateBirth" Type="DateTime" Precision="0" />
+          <Property Name="BloodType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Allergies" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Visitings" Relationship="Self.FK_Visiting_Patient" FromRole="Patient" ToRole="Visiting" />
+          <NavigationProperty Name="WritingDisabilities" Relationship="Self.FK_WritingDisability_Patient" FromRole="Patient" ToRole="WritingDisability" />
+          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Visiting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Patient" Type="Int32" Nullable="false" />
+          <Property Name="Doctor" Type="Int32" Nullable="false" />
+          <Property Name="MedicalComplaints" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Result" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Therapy" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Doctor1" Relationship="Self.FK_Visiting_Doctor" FromRole="Visiting" ToRole="Doctor" />
+          <NavigationProperty Name="Patient1" Relationship="Self.FK_Visiting_Patient" FromRole="Visiting" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="WritingDisability">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DataStart" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DataFinish" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Result" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Patient" Type="Int32" Nullable="false" />
+          <Property Name="Doctor" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Doctor1" Relationship="Self.FK_WritingDisability_Doctor" FromRole="WritingDisability" ToRole="Doctor" />
+          <NavigationProperty Name="Patient1" Relationship="Self.FK_WritingDisability_Patient" FromRole="WritingDisability" ToRole="Patient" />
+        </EntityType>
+        <Association Name="FK_Visiting_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Visiting" Type="Self.Visiting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Visiting">
+              <PropertyRef Name="Doctor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WritingDisability_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="WritingDisability" Type="Self.WritingDisability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WritingDisability">
+              <PropertyRef Name="Doctor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visiting_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="Visiting" Type="Self.Visiting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Visiting">
+              <PropertyRef Name="Patient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WritingDisability_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="WritingDisability" Type="Self.WritingDisability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WritingDisability">
+              <PropertyRef Name="Patient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="hospitalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Doctors" EntityType="Self.Doctor" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <EntitySet Name="Visitings" EntityType="Self.Visiting" />
+          <EntitySet Name="WritingDisabilities" EntityType="Self.WritingDisability" />
+          <AssociationSet Name="FK_Visiting_Doctor" Association="Self.FK_Visiting_Doctor">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="Visiting" EntitySet="Visitings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WritingDisability_Doctor" Association="Self.FK_WritingDisability_Doctor">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="WritingDisability" EntitySet="WritingDisabilities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visiting_Patient" Association="Self.FK_Visiting_Patient">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Visiting" EntitySet="Visitings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WritingDisability_Patient" Association="Self.FK_WritingDisability_Patient">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="WritingDisability" EntitySet="WritingDisabilities" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище HospitalModelContainer" CdmEntityContainer="hospitalEntities">
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="HospitalModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Specialty" ColumnName="Specialty" />
+                <ScalarProperty Name="Cabinet" ColumnName="Cabinet" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="HospitalModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateBirth" ColumnName="DateBirth" />
+                <ScalarProperty Name="BloodType" ColumnName="BloodType" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Allergies" ColumnName="Allergies" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visitings">
+            <EntityTypeMapping TypeName="HospitalModel.Visiting">
+              <MappingFragment StoreEntitySet="Visiting">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Patient" ColumnName="Patient" />
+                <ScalarProperty Name="Doctor" ColumnName="Doctor" />
+                <ScalarProperty Name="MedicalComplaints" ColumnName="MedicalComplaints" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Therapy" ColumnName="Therapy" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WritingDisabilities">
+            <EntityTypeMapping TypeName="HospitalModel.WritingDisability">
+              <MappingFragment StoreEntitySet="WritingDisability">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DataStart" ColumnName="DataStart" />
+                <ScalarProperty Name="DataFinish" ColumnName="DataFinish" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Patient" ColumnName="Patient" />
+                <ScalarProperty Name="Doctor" ColumnName="Doctor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
